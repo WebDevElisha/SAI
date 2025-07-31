@@ -6,6 +6,19 @@ recognition.continuous = false;
 const synth = window.speechSynthesis;
 let currentEmotion = null;
 
+const greetings = [
+  "Hey there!",
+  "What’s good?",
+  "Hello, human friend 👋",
+  "Yo, how you vibing today?",
+  "Wassup?",
+  "Hey hey hey!",
+  "Hiiiii 😄",
+  "What’s crackin’?",
+  "Ayy, Friend’s back!",
+  "SAI here—ready to chat!"
+];
+
 const emotions = {
   joy: {
     colors: "#f9d342",
@@ -84,14 +97,17 @@ function appendBubble(sender, message, emotion = null) {
   const chatWindow = document.getElementById("chat-window");
   const bubble = document.createElement("div");
   bubble.className = "chat-bubble";
-
   if (emotion && emotions[emotion]) {
     bubble.style.backgroundColor = emotions[emotion].colors;
   }
-
   bubble.textContent = `${sender}: ${message}`;
   chatWindow.appendChild(bubble);
   chatWindow.scrollTop = chatWindow.scrollHeight;
+}
+
+function detectGreeting(text) {
+  const lower = text.toLowerCase();
+  return ["hi", "hello", "hey", "yo", "what's up", "sup", "wassup", "good morning", "good evening"].some(greet => lower.includes(greet));
 }
 
 function detectEmotion(text) {
@@ -104,36 +120,14 @@ function detectEmotion(text) {
       }
     }
   }
-
-  // sarcasm tone hint (simple check)
+  if (lower.includes("scared") || lower.includes("afraid")) {
+    return "fear";
+  }
   if (lower.includes("great") && (currentEmotion === "frustration" || lower.includes("just perfect"))) {
     return "sarcasm";
   }
-
   return null;
 }
 
 recognition.onresult = event => {
-  const transcript = event.results[0][0].transcript;
-  appendBubble("You", transcript);
-
-  let emotion = detectEmotion(transcript);
-  currentEmotion = emotion;
-
-  let response = "Hmm… I'm not sure yet.";
-
-  if (transcript.toLowerCase().includes("who made you")) {
-    const creators = ["WebDevElisha built me 💙", "Created with soul by WebDevElisha", "Designed by WebDevElisha." "WebDevElisha built me, with a little copilot help"];
-    response = creators[Math.floor(Math.random() * creators.length)];
-  } else if (emotion && emotions[emotion]) {
-    const inquiry = emotions[emotion].inquiries[Math.floor(Math.random() * emotions[emotion].inquiries.length)];
-    response = inquiry;
-  }
-
-  appendBubble("SAI", response, emotion);
-  speak(response);
-};
-
-recognition.onerror = event => {
-  console.error("Voice error:", event.error);
-};
+  const transcript = event.results[0][

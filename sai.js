@@ -123,7 +123,7 @@ recognition.onresult = event => {
   let response = "Hmm… I'm not sure yet.";
 
   if (transcript.toLowerCase().includes("who made you")) {
-    const creators = ["WebDevElisha built me 💙", "Created with soul by WebDevElisha", "Designed by WebDevElisha."];
+    const creators = ["WebDevElisha built me 💙", "Created with soul by WebDevElisha", "Designed by WebDevElisha." "WebDevElisha built me, with a little copilot help"];
     response = creators[Math.floor(Math.random() * creators.length)];
   } else if (emotion && emotions[emotion]) {
     const inquiry = emotions[emotion].inquiries[Math.floor(Math.random() * emotions[emotion].inquiries.length)];

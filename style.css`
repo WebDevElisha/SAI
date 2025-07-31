@@ -1,0 +1,49 @@
+/* style.css */
+body {
+  background-color: #0b0c10;
+  color: #66fcf1;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.chat-container {
+  background-color: #1f2833;
+  border: 2px solid #45a29e;
+  border-radius: 10px;
+  padding: 20px;
+  width: 400px;
+  text-align: center;
+}
+
+#chat-window {
+  height: 300px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+.chat-bubble {
+  background-color: #45a29e;
+  color: #0b0c10;
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin: 4px 0;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+#mic-btn {
+  background-color: #66fcf1;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #0b0c10;
+}
